@@ -1,17 +1,21 @@
 class AppAsset {
-  AppAsset._internal();
-  static final AppAsset _instance = AppAsset._internal();
+  AppAsset._(); // private constructor
 
-  factory AppAsset() {
-    return _instance;
-  }
-  final String appImagesPath = 'assets/images/';
-  final String appIconPath = 'assets/icons/';
-  static const String applogo = 'assets/images/onboarding.png';
-  static String back = 'asset/icon/back.svg';
+  // Base paths
+  static const String _images = 'asset/images';
+  static const String _icons = 'asset/icons';
 
-  static String eye = 'asset/icon/eye.svg';
-  static String eyeOff = 'asset/icon/eye_off.svg';
-  static String image = 'asset/icon/image.svg';
+  // Images
+  static const String appLogo = '$_images/onboarding.png';
 
+  // Icons
+  static const String back = '$_icons/back.svg';
+  static const String eye = '$_icons/eye.svg';
+  static const String eyeOff = '$_icons/eye_off.svg';
+  static const String image = '$_icons/image.svg';
+
+  static const String fastDelivery = '$_icons/fast_delivery.svg';
+  static const String find = '$_icons/find.svg';
+  static const String easyPay = '$_icons/easy_pay.svg';
+  static const String joinUs = '$_icons/joinus.svg';
 }
