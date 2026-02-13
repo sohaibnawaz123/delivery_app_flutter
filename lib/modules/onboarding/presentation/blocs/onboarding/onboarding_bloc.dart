@@ -18,6 +18,9 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
   OnboardingBloc(this.initialParams, this._useCase)
       : super(OnboardingState(initialParams: initialParams)) {
     on<LoadOnboardingEvent>(_loadOnboardingAction);
+    on<UpdateCurrentPageIndexEvent>((event, emit) {
+      emit(state.copyWith(currentPageIndex: event.pageIndex));
+    });
   }
 
   Future<void> _loadOnboardingAction(

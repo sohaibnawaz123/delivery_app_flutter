@@ -1,8 +1,11 @@
+import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/core/resource/app_asset.dart';
-import 'package:delivery_app/modules/onboarding/presentation/widget/onboarding_template.dart';
+import 'package:delivery_app/modules/onboarding/presentation/widgets/onboarding_screen_widget.dart';
+import 'package:delivery_app/modules/onboarding/presentation/widgets/paginationIndicator.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/onboarding/presentation/blocs/onboarding/onboarding_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OnboardingView extends StatefulWidget {
   final OnboardingBloc bloc;
@@ -13,22 +16,187 @@ class OnboardingView extends StatefulWidget {
 }
 
 class _OnboardingViewState extends State<OnboardingView> {
+  final List<OnboardingData> onboardingData = [
+    OnboardingData(
+      imageUrl: AppAsset.fastDelivery,
+      heading: 'Fast Delivery',
+      subHeading: null,
+      content: 'Experience lightning-fast delivery with our efficient service.',
+    ),
+    OnboardingData(
+      imageUrl: AppAsset.find,
+      heading: 'Find Your Food',
+      subHeading: null,
+      content:
+          'Discover a wide variety of delicious meals from local restaurants.',
+    ),
+    OnboardingData(
+      imageUrl: AppAsset.easyPay,
+      heading: 'Easy Payment',
+      subHeading: null,
+      content:
+          'Enjoy hassle-free payments with multiple secure options available.',
+    ),
+    // OnboardingData(
+    //   imageUrl: AppAsset.joinUs,
+    //   heading: 'Join Us',
+    //   subHeading: null,
+    //   content:
+    //       'Become part of our community and enjoy exclusive offers and rewards.',
+    // ),
+  ];
+  final PageController controller = PageController();
   @override
   void initState() {
     super.initState();
+    controller.addListener(() {
+      widget.bloc.add(
+        UpdateCurrentPageIndexEvent(controller.page?.round() ?? 0),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.base,
-      body: OnboardingTemplate(
-        title: 'Fast Delivery',
-        imagepath: AppAsset.fastDelivery,
-        content:
-            'Experience lightning-fast delivery with our efficient service.',
+      backgroundColor: AppColor.highlight,
+      body: BlocProvider.value(
+        value: widget.bloc,
+        child: BlocBuilder<OnboardingBloc, OnboardingState>(
+          buildWhen: (previous, current) =>
+              previous.currentPageIndex != current.currentPageIndex,
+          builder: (context, state) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                PageView.builder(
+                  controller: controller,
+                  itemBuilder: (context, index) {
+                    final data = onboardingData[index];
+                    return OnboardingScreenWidget(
+                      imageUrl: data.imageUrl!,
+                      heading: data.heading!,
+                      subHeadingText: data.subHeading,
+                      content: data.content,
+                    );
+                  },
+                  itemCount: onboardingData.length,
+                ),
+                Positioned(
+                  bottom: MediaQuery.sizeOf(context).height * 0.37,
+                  left: 0,
+                  right: 0,
+                  child: paginationIndicator(
+                    onboardingData.length,
+                    state.currentPageIndex,
+                  ),
+                ),
+                Positioned(
+                  top: 70,
+                  right: 20,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: AppColor.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColor.primary, width: 2),
+                    ),
+                    child: Text(
+                      'Skip',
+                      style: TextStyle(
+                        color: AppColor.primary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                if (state.currentPageIndex > 0)
+                  Positioned(
+                    top: 70,
+                    left: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (state.currentPageIndex > 0) {
+                          controller.animateToPage(
+                            state.currentPageIndex - 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: AppColor.primary,
+                      ),
+                    ),
+                  ),
+                Positioned(
+                  bottom: MediaQuery.sizeOf(context).height * 0.07,
+                  child: AppButton(
+                    onTap: () async {
+                      if (state.currentPageIndex < onboardingData.length - 1) {
+                        await controller.animateToPage(
+                          state.currentPageIndex + 1,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        );
+                      } else {
+                        // Navigate to the next screen or perform any action after the last page
+                      }
+                    },
+                    title: state.currentPageIndex == onboardingData.length - 1
+                        ? 'Get Started'
+                        : '',
+                    iconPath:
+                        state.currentPageIndex == onboardingData.length - 1
+                        ? null
+                        : AppAsset.arrow,
+                    width: state.currentPageIndex == onboardingData.length - 1
+                        ? 170
+                        : 80,
+                    height: state.currentPageIndex == onboardingData.length - 1
+                        ? 50
+                        : 75,
+                    radius: state.currentPageIndex == onboardingData.length - 1
+                        ? 18
+                        : 50,
+                    iconSize: 20,
+                    padding: state.currentPageIndex == onboardingData.length - 1
+                        ? const EdgeInsets.symmetric(horizontal: 20)
+                        : const EdgeInsets.all(25),
+                    borderColor: AppColor.primary,
+                    buttonColor: AppColor.transparent,
+                    fontColor: AppColor.primary,
+                    borderWidth: 2,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
+}
+
+class OnboardingData {
+  final String? imageUrl;
+  final String? heading;
+  final String? subHeading;
+  final String? content;
+
+  OnboardingData({
+    required this.imageUrl,
+    required this.heading,
+    required this.subHeading,
+    required this.content,
+  });
 }

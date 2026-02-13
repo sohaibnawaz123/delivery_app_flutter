@@ -36,14 +36,20 @@ class AppAppbar extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: GestureDetector(
           onTap: onLeadingTap ?? () => context.popPage(),
-          child: SvgPicture.asset(
-            AppAsset.back,
-            width: 30.h,
-            height: 30.h,
-            colorFilter: isWhite
-                ? ColorFilter.mode(AppColor.white, BlendMode.srcIn)
-                : null,
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 30.h,
+            color: isWhite ? AppColor.white : null,
           ),
+          
+          // SvgPicture.asset(
+          //   AppAsset.back,
+          //   width: 30.h,
+          //   height: 30.h,
+          //   colorFilter: isWhite
+          //       ? ColorFilter.mode(AppColor.white, BlendMode.srcIn)
+          //       : null,
+          // ),
         ),
       ),
     );

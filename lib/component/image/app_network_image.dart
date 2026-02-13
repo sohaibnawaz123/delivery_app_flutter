@@ -55,7 +55,7 @@ class AppNetworkImage extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: SvgPicture.asset(
-                  AppAsset.image,
+                  AppAsset.joinUs,
                   fit: BoxFit.contain,
                   colorFilter: ColorFilter.mode(
                     AppColor.highlight,

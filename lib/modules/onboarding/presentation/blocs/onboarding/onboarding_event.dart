@@ -6,3 +6,8 @@ class  LoadOnboardingEvent extends OnboardingEvent {
   final OnboardingParam param;
    LoadOnboardingEvent(this.param);
 }
+
+class UpdateCurrentPageIndexEvent extends OnboardingEvent {
+  final int pageIndex;
+  UpdateCurrentPageIndexEvent(this.pageIndex);
+}
