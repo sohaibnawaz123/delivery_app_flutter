@@ -6,8 +6,9 @@ class AppStyle {
   static final AppStyle _instance = AppStyle._();
   factory AppStyle() => _instance;
 
-  static final InputBorder inputBorder = UnderlineInputBorder(
-    borderSide: BorderSide(color: AppColor.highlightText, width: 1),
+  static final InputBorder inputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),  
+    borderSide: BorderSide.none,
   );
   static final InputBorder errorInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),

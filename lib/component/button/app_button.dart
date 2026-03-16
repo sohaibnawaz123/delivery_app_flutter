@@ -193,7 +193,7 @@ class AppButton extends StatelessWidget {
     this.fontSize = 16,
     this.width = double.infinity,
     this.fontWeight,
-    this.height = 60,
+    this.height = 50,
     this.radius = 6,
     this.padding,
     this.onTap,

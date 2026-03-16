@@ -1,5 +1,10 @@
 import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/core/resource/app_asset.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
+import 'package:delivery_app/main.dart';
+import 'package:delivery_app/modules/onboarding/presentation/blocs/joinus/joinus_bloc.dart';
+import 'package:delivery_app/modules/onboarding/presentation/routes/joinus_view_initial_params.dart';
+import 'package:delivery_app/modules/onboarding/presentation/views/joinus_view.dart';
 import 'package:delivery_app/modules/onboarding/presentation/widgets/onboarding_screen_widget.dart';
 import 'package:delivery_app/modules/onboarding/presentation/widgets/paginationIndicator.dart';
 import 'package:flutter/material.dart';
@@ -49,11 +54,6 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      widget.bloc.add(
-        UpdateCurrentPageIndexEvent(controller.page?.round() ?? 0),
-      );
-    });
   }
 
   @override
@@ -65,7 +65,7 @@ class _OnboardingViewState extends State<OnboardingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       backgroundColor: AppColor.highlight,
       body: BlocProvider.value(
         value: widget.bloc,
@@ -78,19 +78,36 @@ class _OnboardingViewState extends State<OnboardingView> {
               children: [
                 PageView.builder(
                   controller: controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: (index) {
+                    widget.bloc.add(UpdateCurrentPageIndexEvent(index));
+                  },
                   itemBuilder: (context, index) {
                     final data = onboardingData[index];
-                    return OnboardingScreenWidget(
-                      imageUrl: data.imageUrl!,
-                      heading: data.heading!,
-                      subHeadingText: data.subHeading,
-                      content: data.content,
+                    final isActive = index == state.currentPageIndex;
+                    return RepaintBoundary(
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeOut,
+                        opacity: isActive ? 1 : 0.5,
+                        child: AnimatedScale(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.easeOut,
+                          scale: isActive ? 1 : 0.96,
+                          child: OnboardingScreenWidget(
+                            imageUrl: data.imageUrl!,
+                            heading: data.heading!,
+                            subHeadingText: data.subHeading,
+                            content: data.content,
+                          ),
+                        ),
+                      ),
                     );
                   },
                   itemCount: onboardingData.length,
                 ),
                 Positioned(
-                  bottom: MediaQuery.sizeOf(context).height * 0.37,
+                  bottom: MediaQuery.sizeOf(context).height * 0.33,
                   left: 0,
                   right: 0,
                   child: paginationIndicator(
@@ -99,21 +116,36 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                 ),
                 Positioned(
-                  top: 70,
+                  top: 65,
                   right: 20,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    decoration: BoxDecoration(
-                      color: AppColor.transparent,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppColor.primary, width: 2),
-                    ),
-                    child: Text(
-                      'Skip',
-                      style: TextStyle(
-                        color: AppColor.primary,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                  child: GestureDetector(
+                    onTap: () {
+                      context.pushPage(
+                        JoinusView(
+                          bloc: getIt<JoinusBloc>(
+                            param1: JoinusViewInitialParams(),
+                          ),
+                        ),
+                      );
+                    },
+
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColor.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: AppColor.primary, width: 2),
+                      ),
+                      child: Text(
+                        'Skip',
+                        style: TextStyle(
+                          color: AppColor.primary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -127,28 +159,38 @@ class _OnboardingViewState extends State<OnboardingView> {
                         if (state.currentPageIndex > 0) {
                           controller.animateToPage(
                             state.currentPageIndex - 1,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut,
+                            duration: const Duration(milliseconds: 450),
+                            curve: Curves.easeOutCubic,
                           );
                         }
                       },
                       child: Icon(
-                        Icons.arrow_back_ios_new_outlined,
+                        Icons.arrow_back_ios_new_rounded,
                         color: AppColor.primary,
                       ),
                     ),
                   ),
                 Positioned(
-                  bottom: MediaQuery.sizeOf(context).height * 0.07,
+                  bottom: MediaQuery.of(context).viewPadding.bottom < 0.0
+                      ? 20
+                      : MediaQuery.of(context).viewPadding.bottom + 20,
+                  // bottom: MediaQuery.of(context).size.height * 0.07,
                   child: AppButton(
                     onTap: () async {
                       if (state.currentPageIndex < onboardingData.length - 1) {
                         await controller.animateToPage(
                           state.currentPageIndex + 1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
+                          duration: const Duration(milliseconds: 450),
+                          curve: Curves.easeOutCubic,
                         );
                       } else {
+                        context.pushPage(
+                          JoinusView(
+                            bloc: getIt<JoinusBloc>(
+                              param1: JoinusViewInitialParams(),
+                            ),
+                          ),
+                        );
                         // Navigate to the next screen or perform any action after the last page
                       }
                     },
@@ -161,7 +203,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                         : AppAsset.arrow,
                     width: state.currentPageIndex == onboardingData.length - 1
                         ? 170
-                        : 80,
+                        : 75,
                     height: state.currentPageIndex == onboardingData.length - 1
                         ? 50
                         : 75,
@@ -173,8 +215,8 @@ class _OnboardingViewState extends State<OnboardingView> {
                         ? const EdgeInsets.symmetric(horizontal: 20)
                         : const EdgeInsets.all(25),
                     borderColor: AppColor.primary,
-                    buttonColor: AppColor.transparent,
-                    fontColor: AppColor.primary,
+                    buttonColor: AppColor.primary,
+                    fontColor: AppColor.white,
                     borderWidth: 2,
                   ),
                 ),

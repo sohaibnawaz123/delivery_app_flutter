@@ -11,26 +11,153 @@ import 'package:delivery_app/modules/onboarding/domain/repository/onboarding_rep
 import 'package:delivery_app/modules/onboarding/domain/usecase/onboarding_use_case.dart';
 import 'package:delivery_app/modules/onboarding/presentation/blocs/onboarding/onboarding_bloc.dart';
 import 'package:delivery_app/modules/onboarding/presentation/routes/onboarding_view_initial_params.dart';
+import 'package:delivery_app/modules/onboarding/data/datasource/joinus_remote_data_source.dart';
+import 'package:delivery_app/modules/onboarding/data/datasource/joinus_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/onboarding/data/rest_api/joinus_rest_api_repo.dart';
+import 'package:delivery_app/modules/onboarding/domain/repository/joinus_repo.dart';
+import 'package:delivery_app/modules/onboarding/domain/usecase/joinus_use_case.dart';
+import 'package:delivery_app/modules/onboarding/presentation/blocs/joinus/joinus_bloc.dart';
+import 'package:delivery_app/modules/onboarding/presentation/routes/joinus_view_initial_params.dart';
+import 'package:delivery_app/modules/auth/data/datasource/login_remote_data_source.dart';
+import 'package:delivery_app/modules/auth/data/datasource/login_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/auth/data/rest_api/login_rest_api_repo.dart';
+import 'package:delivery_app/modules/auth/domain/repository/login_repo.dart';
+import 'package:delivery_app/modules/auth/domain/usecase/login_use_case.dart';
+import 'package:delivery_app/modules/auth/presentation/blocs/login/login_bloc.dart';
+import 'package:delivery_app/modules/auth/presentation/routes/login_view_initial_params.dart';
+import 'package:delivery_app/modules/auth/data/datasource/signup_remote_data_source.dart';
+import 'package:delivery_app/modules/auth/data/datasource/signup_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/auth/data/rest_api/signup_rest_api_repo.dart';
+import 'package:delivery_app/modules/auth/domain/repository/signup_repo.dart';
+import 'package:delivery_app/modules/auth/domain/usecase/signup_use_case.dart';
+import 'package:delivery_app/modules/auth/presentation/blocs/signup/signup_bloc.dart';
+import 'package:delivery_app/modules/auth/presentation/routes/signup_view_initial_params.dart';
+import 'package:delivery_app/modules/auth/data/datasource/forgetpassword_remote_data_source.dart';
+import 'package:delivery_app/modules/auth/data/datasource/forgetpassword_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/auth/data/rest_api/forgetpassword_rest_api_repo.dart';
+import 'package:delivery_app/modules/auth/domain/repository/forgetpassword_repo.dart';
+import 'package:delivery_app/modules/auth/domain/usecase/forgetpassword_use_case.dart';
+import 'package:delivery_app/modules/auth/presentation/blocs/forgetpassword/forgetpassword_bloc.dart';
+import 'package:delivery_app/modules/auth/presentation/routes/forgetpassword_view_initial_params.dart';
 
-
- 
+import 'package:delivery_app/modules/auth/data/datasource/otpverify_remote_data_source.dart';
+import 'package:delivery_app/modules/auth/data/datasource/otpverify_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/auth/data/rest_api/otpverify_rest_api_repo.dart';
+import 'package:delivery_app/modules/auth/domain/repository/otpverify_repo.dart';
+import 'package:delivery_app/modules/auth/domain/usecase/otpverify_use_case.dart';
+import 'package:delivery_app/modules/auth/presentation/blocs/otpverify/otpverify_bloc.dart';
+import 'package:delivery_app/modules/auth/presentation/routes/otpverify_view_initial_params.dart';
+import 'package:delivery_app/modules/auth/data/datasource/resetpassword_remote_data_source.dart';
+import 'package:delivery_app/modules/auth/data/datasource/resetpassword_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/auth/data/rest_api/resetpassword_rest_api_repo.dart';
+import 'package:delivery_app/modules/auth/domain/repository/resetpassword_repo.dart';
+import 'package:delivery_app/modules/auth/domain/usecase/resetpassword_use_case.dart';
+import 'package:delivery_app/modules/auth/presentation/blocs/resetpassword/resetpassword_bloc.dart';
+import 'package:delivery_app/modules/auth/presentation/routes/resetpassword_view_initial_params.dart';
 
 void getInstance(BuildContext context) {
   getIt = GetIt.instance;
   getIt.registerSingleton<Network>(NetworkService());
   getIt.registerSingleton<AppUrl>(AppUrl());
 
-   // <<<<<<<<<<<<<<<<<<<<<<<  Onboarding  >>>>>>>>>>>>>>>>>>>>>>>
+  // <<<<<<<<<<<<<<<<<<<<<<<  Onboarding  >>>>>>>>>>>>>>>>>>>>>>>
   getIt.registerSingleton<OnboardingRemoteDataSource>(
-      OnboardingRemoteDataSourceImpl(getIt(), getIt()));
+    OnboardingRemoteDataSourceImpl(getIt(), getIt()),
+  );
 
-  getIt.registerSingleton<OnboardingRepo>(
-      OnboardingRestApiRepo(getIt()));
+  getIt.registerSingleton<OnboardingRepo>(OnboardingRestApiRepo(getIt()));
 
-  getIt.registerSingleton<OnboardingUseCase>(
-      OnboardingUseCase(getIt()));
+  getIt.registerSingleton<OnboardingUseCase>(OnboardingUseCase(getIt()));
 
-  getIt.registerFactoryParam<OnboardingBloc, OnboardingViewInitialParams, dynamic>(
-      (params, _) => OnboardingBloc(params, getIt()));
+  getIt.registerFactoryParam<
+    OnboardingBloc,
+    OnboardingViewInitialParams,
+    dynamic
+  >((params, _) => OnboardingBloc(params, getIt()));
 
+  // <<<<<<<<<<<<<<<<<<<<<<<  Joinus  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<JoinusRemoteDataSource>(
+    JoinusRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<JoinusRepo>(JoinusRestApiRepo(getIt()));
+
+  getIt.registerSingleton<JoinusUseCase>(JoinusUseCase(getIt()));
+
+  getIt.registerFactoryParam<JoinusBloc, JoinusViewInitialParams, dynamic>(
+    (params, _) => JoinusBloc(params, getIt()),
+  );
+  // <<<<<<<<<<<<<<<<<<<<<<<  Login  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<LoginRemoteDataSource>(
+    LoginRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<LoginRepo>(LoginRestApiRepo(getIt()));
+
+  getIt.registerSingleton<LoginUseCase>(LoginUseCase(getIt()));
+
+  getIt.registerFactoryParam<LoginBloc, LoginViewInitialParams, dynamic>(
+    (params, _) => LoginBloc(params, getIt()),
+  );
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  Signup  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<SignupRemoteDataSource>(
+    SignupRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<SignupRepo>(SignupRestApiRepo(getIt()));
+
+  getIt.registerSingleton<SignupUseCase>(SignupUseCase(getIt()));
+
+  getIt.registerFactoryParam<SignupBloc, SignupViewInitialParams, dynamic>(
+    (params, _) => SignupBloc(params, getIt()),
+  );
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  Forgetpassword  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<ForgetpasswordRemoteDataSource>(
+    ForgetpasswordRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<ForgetpasswordRepo>(
+    ForgetpasswordRestApiRepo(getIt()),
+  );
+
+  getIt.registerSingleton<ForgetpasswordUseCase>(
+    ForgetpasswordUseCase(getIt()),
+  );
+
+  getIt.registerFactoryParam<
+    ForgetpasswordBloc,
+    ForgetpasswordViewInitialParams,
+    dynamic
+  >((params, _) => ForgetpasswordBloc(params, getIt()));
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  Otpverify  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<OtpverifyRemoteDataSource>(
+    OtpverifyRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<OtpverifyRepo>(OtpverifyRestApiRepo(getIt()));
+
+  getIt.registerSingleton<OtpverifyUseCase>(OtpverifyUseCase(getIt()));
+
+  getIt
+      .registerFactoryParam<OtpverifyBloc, OtpverifyViewInitialParams, dynamic>(
+        (params, _) => OtpverifyBloc(params, getIt()),
+      );
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  Resetpassword  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<ResetpasswordRemoteDataSource>(
+    ResetpasswordRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<ResetpasswordRepo>(ResetpasswordRestApiRepo(getIt()));
+
+  getIt.registerSingleton<ResetpasswordUseCase>(ResetpasswordUseCase(getIt()));
+
+  getIt.registerFactoryParam<
+    ResetpasswordBloc,
+    ResetpasswordViewInitialParams,
+    dynamic
+  >((params, _) => ResetpasswordBloc(params, getIt()));
 }
