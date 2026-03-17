@@ -13,6 +13,9 @@ import 'package:delivery_app/modules/auth/presentation/widgets/auth_header.dart'
 import 'package:delivery_app/modules/auth/presentation/widgets/auth_title_header.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/checkbox_widget.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/social_icons_widget.dart';
+import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboard/dashboard_bloc.dart';
+import 'package:delivery_app/modules/dashboard/presentation/routes/dashboard_view_initial_params.dart';
+import 'package:delivery_app/modules/dashboard/presentation/views/dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/auth/presentation/blocs/login/login_bloc.dart';
@@ -60,7 +63,10 @@ class _LoginViewState extends State<LoginView> {
             SizedBox(height: 30),
             LoginFieldsWidget(),
             SizedBox(height: 30),
-            AppButton(title: 'Sign In', radius: 50),
+            AppButton(title: 'Sign In', radius: 50,onTap: () {
+              // Handle sign in logic here
+              context.pushPage(DashboardView(bloc: getIt<DashboardBloc>(param1: DashboardViewInitialParams()),));
+            },),
             SizedBox(height: 30),
             OrWidget(),
             SizedBox(height: 30),

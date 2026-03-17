@@ -5,10 +5,14 @@ import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
 import 'package:delivery_app/core/utils/extension/app_navigation.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/main.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/auth_header.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/auth_title_header.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/checkbox_widget.dart';
 import 'package:delivery_app/modules/auth/presentation/widgets/social_icons_widget.dart';
+import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboard/dashboard_bloc.dart';
+import 'package:delivery_app/modules/dashboard/presentation/routes/dashboard_view_initial_params.dart';
+import 'package:delivery_app/modules/dashboard/presentation/views/dashboard_view.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/auth/presentation/blocs/signup/signup_bloc.dart';
@@ -59,7 +63,16 @@ class _SignupViewState extends State<SignupView> {
             SizedBox(height: 30),
             SignUpFieldsWidget(),
             SizedBox(height: 30),
-            AppButton(title: 'Sign Up', radius: 50),
+            AppButton(title: 'Sign Up', radius: 50,onTap: () {
+              // Handle sign in logic here
+                context.pushPage(
+                  DashboardView(
+                    bloc: getIt<DashboardBloc>(
+                      param1: DashboardViewInitialParams(),
+                    ),
+                  ),
+                );
+            },),
             SizedBox(height: 30),
             OrWidget(),
             SizedBox(height: 30),

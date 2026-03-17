@@ -23,6 +23,13 @@ class AppAsset {
   static const String google = '$_images/google.png';
   static const String facebook = '$_images/facebook.png';
   static const String apple = '$_images/apple.png';
-
-
+  // dashboard icons
+  static const String home = '$_icons/home_fill.svg';
+  static const String favourit = '$_icons/heart_fill.svg';
+  static const String cart = '$_icons/cart_fill.svg';
+  static const String setting = '$_icons/settings_fill.svg';
+  static const String homeOutline = '$_icons/home_outline.svg';
+  static const String favouritOutline = '$_icons/heart_outline.svg';
+  static const String cartOutline = '$_icons/cart_outline.svg';
+  static const String settingOutline = '$_icons/settings_outline.svg';
 }
