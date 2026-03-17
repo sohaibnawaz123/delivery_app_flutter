@@ -96,14 +96,14 @@ class _DashboardViewState extends State<DashboardView> {
             previous.currentIndex != current.currentIndex,
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: AppColor.base,
+            backgroundColor: AppColor.white,
             body: IndexedStack(index: state.currentIndex, children: _pages),
             bottomNavigationBar: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
-                color: AppColor.highlight.withOpacity(0.35),
+                color: AppColor.highlight.withOpacity(0.3),
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColor.primary.withOpacity(0.18)),
+                border: Border.all(color: AppColor.primary.withOpacity(0.5)),
                 boxShadow: [
                   BoxShadow(
                     color: AppColor.black.withOpacity(0.05),
@@ -117,6 +117,10 @@ class _DashboardViewState extends State<DashboardView> {
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   hoverColor: Colors.transparent,
+                  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                  ),
                 ),
                 child: BottomNavigationBar(
                   currentIndex: state.currentIndex,

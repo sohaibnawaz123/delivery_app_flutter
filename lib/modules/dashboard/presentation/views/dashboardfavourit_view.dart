@@ -12,7 +12,7 @@ class DashboardfavouritView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.base,
+      color: AppColor.white,
       alignment: Alignment.center,
       child: const Text(
         'Dashboard Favourit',

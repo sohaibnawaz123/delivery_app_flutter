@@ -32,4 +32,6 @@ class AppAsset {
   static const String favouritOutline = '$_icons/heart_outline.svg';
   static const String cartOutline = '$_icons/cart_outline.svg';
   static const String settingOutline = '$_icons/settings_outline.svg';
+  static const String filter = '$_icons/filtter.svg';
+
 }
