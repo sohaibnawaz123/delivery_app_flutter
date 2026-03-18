@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
@@ -88,7 +86,7 @@ class DashboardhomeView extends StatelessWidget {
           SizedBox(height: 85, child: CategorySection(category: categories)),
           SizedBox(height: 15),
           // BannerSection(),
-          
+
         ],
       ),
     );
