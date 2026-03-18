@@ -31,18 +31,20 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: ScreenUtilInit(
-        designSize: const Size(402, 871),
-
-        child: OnboardingView(
-          bloc: getIt<OnboardingBloc>(param1: OnboardingViewInitialParams()),
-        ),
+    return ScreenUtilInit(
+      designSize: const Size(402, 871),
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
+          home: child,
+        );
+      },
+      child: OnboardingView(
+        bloc: getIt<OnboardingBloc>(param1: OnboardingViewInitialParams()),
       ),
     );
   }

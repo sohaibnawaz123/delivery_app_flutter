@@ -102,7 +102,10 @@ class _DashboardViewState extends State<DashboardView> {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                 color: AppColor.highlight.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
                 border: Border.all(color: AppColor.primary.withOpacity(0.5)),
                 boxShadow: [
                   BoxShadow(
