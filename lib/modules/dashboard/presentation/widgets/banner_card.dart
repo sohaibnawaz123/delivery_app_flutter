@@ -1,3 +1,7 @@
+import 'package:delivery_app/component/text/content.dart';
+import 'package:delivery_app/core/resource/app_color.dart';
+import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class BannerEntity {
@@ -20,14 +24,16 @@ class BannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(16),
       width: double.infinity,
+      height: 200,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColor.highlight,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.withOpacity(0.5)),
+        border: Border.all(color: AppColor.primary.withValues(alpha: 0.5), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
+            color: AppColor.primary.withValues(alpha: 0.2),
             blurRadius: 5,
             offset: Offset(0, 3),
           ),
@@ -40,24 +46,27 @@ class BannerCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  banner.title,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                Content(
+                 data: banner.title,
+                  textStyle: context.headingText.copyWith(
+                    color: AppColor.primary,
+                    fontWeight: AppFontWeight.bold,
                   ),
+                  size: 28,
+
                 ),
                 SizedBox(height: 5),
-                Text(
-                  banner.description,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
+                Content(
+                  data: banner.description,
+                  textStyle: context.bodyText.copyWith(
+                    color: AppColor.baseText,
                   ),
+                  size: 14,
                 ),
               ],
             ),
           ),
+          SizedBox(width: 10),
           ClipRRect(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
@@ -65,12 +74,11 @@ class BannerCard extends StatelessWidget {
             ),
             child: Image.network(
               banner.imageUrl,
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
+              width: 120,
+              height: 200,
+              fit: BoxFit.contain,
             ),
           ),
-          SizedBox(width: 10),
         ],
       ),
     );
