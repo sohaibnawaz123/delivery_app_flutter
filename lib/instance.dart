@@ -88,6 +88,13 @@ import 'package:delivery_app/modules/dashboard/domain/repository/dashboardsettin
 import 'package:delivery_app/modules/dashboard/domain/usecase/dashboardsetting_use_case.dart';
 import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboardsetting/dashboardsetting_bloc.dart';
 import 'package:delivery_app/modules/dashboard/presentation/routes/dashboardsetting_view_initial_params.dart';
+import 'package:delivery_app/modules/product_setting/data/datasource/fetch_all_product_remote_data_source.dart';
+import 'package:delivery_app/modules/product_setting/data/datasource/fetch_all_product_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/product_setting/data/rest_api/fetch_all_product_rest_api_repo.dart';
+import 'package:delivery_app/modules/product_setting/domain/repository/fetch_all_product_repo.dart';
+import 'package:delivery_app/modules/product_setting/domain/usecase/fetch_all_product_use_case.dart';
+import 'package:delivery_app/modules/product_setting/presentation/blocs/fetch_all_product/fetch_all_product_bloc.dart';
+import 'package:delivery_app/modules/product_setting/presentation/routes/fetch_all_product_view_initial_params.dart';
 
 void getInstance(BuildContext context) {
   getIt = GetIt.instance;
@@ -274,4 +281,23 @@ void getInstance(BuildContext context) {
     DashboardsettingViewInitialParams,
     dynamic
   >((params, _) => DashboardsettingBloc(params, getIt()));
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  FetchAllProduct  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<FetchAllProductRemoteDataSource>(
+    FetchAllProductRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<FetchAllProductRepo>(
+    FetchAllProductRestApiRepo(getIt()),
+  );
+
+  getIt.registerSingleton<FetchAllProductUseCase>(
+    FetchAllProductUseCase(getIt()),
+  );
+
+  getIt.registerFactoryParam<
+    FetchAllProductBloc,
+    FetchAllProductViewInitialParams,
+    dynamic
+  >((params, _) => FetchAllProductBloc(params, getIt()));
 }

@@ -4,6 +4,7 @@ import 'package:delivery_app/core/utils/extension/app_text_style.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/banner_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/category_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/home_header.dart';
+import 'package:delivery_app/modules/dashboard/presentation/widgets/product_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/search_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
@@ -77,6 +78,111 @@ class DashboardhomeView extends StatelessWidget {
     ),
   ];
 
+  List<ProductEntity> get products => [
+    ProductEntity(
+      name: 'Margherita Pizza',
+      description: 'Classic pizza with tomato sauce, mozzarella, and basil.',
+      price: 8.99,
+      isFavorite: false,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '1',
+      category: 'Pizza',
+      rating: 4.5,
+    ),
+    ProductEntity(
+      name: 'Cheeseburger',
+      description: 'Juicy beef patty with cheese, lettuce, and tomato.',
+      price: 6.49,
+      isFavorite: true,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '2',
+      category: 'Burger',
+      rating: 4.0,
+    ),
+    ProductEntity(
+      name: 'California Roll',
+      description: 'Sushi roll with crab, avocado, and cucumber.',
+      price: 12.99,
+      isFavorite: false,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '3',
+      category: 'Sushi',
+      rating: 4.8,
+    ),
+    ProductEntity(
+      name: 'Chocolate Cake',
+      description: 'Rich chocolate cake with creamy frosting.',
+      price: 5.99,
+      isFavorite: true,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '4',
+      category: 'Dessert',
+      rating: 4.7,
+    ),
+    ProductEntity(
+      name: 'Caesar Salad',
+      description:
+          'Fresh romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.',
+      price: 7.99,
+      isFavorite: false,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '5',
+      category: 'Salad',
+      rating: 4.3,
+    ),
+    ProductEntity(
+      name: 'Spaghetti Carbonara',
+      description:
+          'Classic Italian pasta with eggs, cheese, pancetta, and pepper.',
+      price: 10.99,
+      isFavorite: true,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '6',
+      category: 'Pasta',
+      rating: 4.6,
+    ),
+    ProductEntity(
+      name: 'Grilled Steak',
+      description: 'Tender grilled steak with garlic butter.',
+      price: 18.99,
+      isFavorite: false,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '7',
+      category: 'Steak',
+      rating: 4.9,
+    ),
+    ProductEntity(
+      name: 'Shrimp Scampi',
+      description: 'Sautéed shrimp in garlic butter sauce with linguine.',
+      price: 14.99,
+      isFavorite: true,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '8',
+      category: 'Seafood',
+      rating: 4.4,
+    ),
+    ProductEntity(
+      name: 'Vegan Burger',
+      description: 'Plant-based patty with lettuce, tomato, and vegan mayo.',
+      price: 9.99,
+      isFavorite: false,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '9',
+      category: 'Vegan',
+      rating: 4.2,
+    ),
+    ProductEntity(
+      name: 'Pancakes',
+      description: 'Fluffy pancakes served with syrup and butter.',
+      price: 6.99,
+      isFavorite: true,
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      id: '10',
+      category: 'Breakfast',
+      rating: 4.5,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -104,7 +210,28 @@ class DashboardhomeView extends StatelessWidget {
           SizedBox(height: 85, child: CategorySection(category: categories)),
           SizedBox(height: 15),
           SizedBox(height: 200, child: BannerSection(banners: banners)),
-
+          SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: 'Popular Dishes',
+                textStyle: context.headingText.copyWith(
+                  color: AppColor.primaryText,
+                  fontWeight: FontWeight.w600,
+                ),
+                size: 22,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Content(
+                  data: 'See All',
+                  textStyle: context.bodyText.copyWith(color: AppColor.primary),
+                ),
+              ),
+            ],
+          ),
+          ProductSection(products: products),
         ],
       ),
     );
@@ -218,13 +345,35 @@ class _BannerSectionState extends State<BannerSection> {
               width: isActive ? 16 : 8,
               height: 8,
               decoration: BoxDecoration(
-                color: isActive ? AppColor.primary : AppColor.primary.withValues(alpha: 0.4),
+                color: isActive
+                    ? AppColor.primary
+                    : AppColor.primary.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(10),
               ),
             );
           }),
         ),
       ],
+    );
+  }
+}
+
+class ProductSection extends StatelessWidget {
+  const ProductSection({super.key, required this.products});
+
+  final List<ProductEntity> products;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 250,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return ProductCard(product: products[index]);
+        },
+      ),
     );
   }
 }
