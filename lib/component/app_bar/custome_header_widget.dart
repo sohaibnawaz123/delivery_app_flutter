@@ -1,0 +1,71 @@
+import 'package:delivery_app/component/text/content.dart';
+import 'package:delivery_app/core/resource/app_color.dart';
+import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
+import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class HeaderWidget extends StatelessWidget {
+  const HeaderWidget({
+    super.key,
+    this.title,
+    this.category,
+    this.showBackButton = true,
+  });
+  final String? title;
+  final String? category;
+  final bool showBackButton;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).viewInsets.top + 10),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          // Centered title and category
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Content(
+                data: title ?? "All Products",
+                size: 24.sp,
+                textStyle: context.headingText.copyWith(
+                  fontWeight: AppFontWeight.semiBold,
+                  color: AppColor.primaryText,
+                ),
+              ),
+              if (category != null) ...[
+                Content(
+                  data: category ?? "",
+                  size: 16.sp,
+                  textStyle: context.bodyText.copyWith(
+                    fontWeight: AppFontWeight.regular,
+                    color: AppColor.secondaryText,
+                  ),
+                ),
+              ],
+            ],
+          ),
+          // Back button aligned left
+          showBackButton
+              ? Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: GestureDetector(
+                    onTap: () => context.popPage(),
+                    child: Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: AppColor.primary,
+                    ),
+                  ),
+                )
+              : SizedBox.shrink(),
+        ],
+      ),
+    );
+  }
+}

@@ -1,10 +1,9 @@
+import 'package:delivery_app/component/app_bar/custome_header_widget.dart';
+import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/product_setting/presentation/blocs/fetch_all_product/fetch_all_product_bloc.dart';
-
 
 class FetchAllProductView extends StatefulWidget {
   final FetchAllProductBloc bloc;
@@ -28,23 +27,49 @@ class _FetchAllProductViewState extends State<FetchAllProductView> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      backgroundColor: AppColor.base,
-
-      
+      backgroundColor: AppColor.white,
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(
+          context.pagePadding.left,
+          MediaQuery.of(context).viewInsets.top + context.pagePadding.top,
+          context.pagePadding.right,
+          context.pagePadding.bottom,
+        ),
+        children: [
+          HeaderWidget(title: widget.title, category: widget.category,),
+          SizedBox(height: 15),
+          ProductGridSection(products: widget.products),
+        ],
+      ),
     );
-  
   }
 }
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
+class ProductGridSection extends StatelessWidget {
+  const ProductGridSection({super.key, required this.products});
+
+  final List<ProductEntity> products;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 0.7,
+      ),
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return ProductCard(product: products[index]);
+      },
+    );
   }
 }

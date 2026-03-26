@@ -1,11 +1,16 @@
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/main.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/banner_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/category_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/home_header.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/product_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/search_filter.dart';
+import 'package:delivery_app/modules/product_setting/presentation/blocs/fetch_all_product/fetch_all_product_bloc.dart';
+import 'package:delivery_app/modules/product_setting/presentation/routes/fetch_all_product_view_initial_params.dart';
+import 'package:delivery_app/modules/product_setting/presentation/views/fetch_all_product_view.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboardhome/dashboardhome_bloc.dart';
@@ -188,7 +193,7 @@ class DashboardhomeView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(
         context.pagePadding.left,
-        MediaQuery.of(context).padding.top,
+        MediaQuery.of(context).viewInsets.top + context.pagePadding.top,
         context.pagePadding.right,
         context.pagePadding.bottom,
       ),
@@ -223,7 +228,17 @@ class DashboardhomeView extends StatelessWidget {
                 size: 22,
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.pushPage(
+                    FetchAllProductView(
+                      bloc: getIt<FetchAllProductBloc>(
+                        param1: FetchAllProductViewInitialParams(),
+                      ),
+                      products: products,
+                      title: "All Popular Dishes",
+                    ),
+                  );
+                },
                 child: Content(
                   data: 'See All',
                   textStyle: context.bodyText.copyWith(color: AppColor.primary),
@@ -367,12 +382,27 @@ class ProductSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 250,
-      child: ListView.builder(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductCard(product: products[index]);
+          return GestureDetector(
+            onTap: () {
+              context.pushPage(
+                FetchAllProductView(
+                  bloc: getIt<FetchAllProductBloc>(
+                    param1: FetchAllProductViewInitialParams(),
+                  ),
+                  products: products,
+                  title: "${products[index].category} Specials",
+                  category: products[index].category,
+                ),
+              );
+            },
+            child: ProductCard(product: products[index]),
+          );
         },
+        separatorBuilder: (context, index) => const SizedBox(width: 16),
       ),
     );
   }
