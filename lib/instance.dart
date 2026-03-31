@@ -95,7 +95,13 @@ import 'package:delivery_app/modules/product_setting/domain/repository/fetch_all
 import 'package:delivery_app/modules/product_setting/domain/usecase/fetch_all_product_use_case.dart';
 import 'package:delivery_app/modules/product_setting/presentation/blocs/fetch_all_product/fetch_all_product_bloc.dart';
 import 'package:delivery_app/modules/product_setting/presentation/routes/fetch_all_product_view_initial_params.dart';
-
+import 'package:delivery_app/modules/product_setting/data/datasource/productdetail_remote_data_source.dart';
+import 'package:delivery_app/modules/product_setting/data/datasource/productdetail_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/product_setting/data/rest_api/productdetail_rest_api_repo.dart';
+import 'package:delivery_app/modules/product_setting/domain/repository/productdetail_repo.dart';
+import 'package:delivery_app/modules/product_setting/domain/usecase/productdetail_use_case.dart';
+import 'package:delivery_app/modules/product_setting/presentation/blocs/productdetail/productdetail_bloc.dart';
+import 'package:delivery_app/modules/product_setting/presentation/routes/productdetail_view_initial_params.dart';
 void getInstance(BuildContext context) {
   getIt = GetIt.instance;
   getIt.registerSingleton<Network>(NetworkService());
@@ -300,4 +306,20 @@ void getInstance(BuildContext context) {
     FetchAllProductViewInitialParams,
     dynamic
   >((params, _) => FetchAllProductBloc(params, getIt()));
+
+  // <<<<<<<<<<<<<<<<<<<<<<<  Productdetail  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<ProductdetailRemoteDataSource>(
+    ProductdetailRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<ProductdetailRepo>(ProductdetailRestApiRepo(getIt()));
+
+  getIt.registerSingleton<ProductdetailUseCase>(ProductdetailUseCase(getIt()));
+
+  getIt.registerFactoryParam<
+    ProductdetailBloc,
+    ProductdetailViewInitialParams,
+    dynamic
+  >((params, _) => ProductdetailBloc(params, getIt()));
+
 }

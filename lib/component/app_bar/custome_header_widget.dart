@@ -11,10 +11,12 @@ class HeaderWidget extends StatelessWidget {
     super.key,
     this.title,
     this.category,
-    this.showBackButton = true,
+    this.showBackButton = true, this.titleColor, this.iconColor,
   });
   final String? title;
   final String? category;
+  final Color? titleColor;
+  final Color? iconColor;
   final bool showBackButton;
 
   @override
@@ -30,11 +32,11 @@ class HeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Content(
-                data: title ?? "All Products",
+                data: title ?? "",
                 size: 24.sp,
                 textStyle: context.headingText.copyWith(
                   fontWeight: AppFontWeight.semiBold,
-                  color: AppColor.primaryText,
+                  color: titleColor ?? AppColor.primaryText,
                 ),
               ),
               if (category != null) ...[
@@ -59,7 +61,7 @@ class HeaderWidget extends StatelessWidget {
                     onTap: () => context.popPage(),
                     child: Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      color: AppColor.primary,
+                      color: iconColor ?? AppColor.primary,
                     ),
                   ),
                 )
