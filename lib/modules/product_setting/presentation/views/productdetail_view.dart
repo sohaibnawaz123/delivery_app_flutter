@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:delivery_app/component/app_bar/custome_header_widget.dart';
+import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
 import 'package:delivery_app/core/utils/extension/app_padding.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/modules/product_setting/widget/icon_box.dart';
+import 'package:delivery_app/modules/product_setting/widget/product_size_widget.dart';
+import 'package:delivery_app/modules/product_setting/widget/quantity_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
@@ -25,6 +29,9 @@ class _ProductdetailViewState extends State<ProductdetailView> {
     'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
     'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
   ];
+
+  final List<String> sizes = ['12"', '14"', '16"', '18"'];
+  int selectedIndex = -1; // Track selected size index
   @override
   void initState() {
     super.initState();
@@ -51,18 +58,6 @@ class _ProductdetailViewState extends State<ProductdetailView> {
             child: Stack(
               children: [
                 ProductImageCarosul(imageUrls: imageUrls),
-                // Positioned(
-                //   top: 0,
-                //   left: 0,
-                //   right: 0,
-                //   child: Container(
-                //     height: 80,
-                //     decoration: BoxDecoration(
-                //       color: AppColor.highlight.withOpacity(0.5),
-                //       borderRadius: BorderRadius.circular(12)
-                //     ),
-                //   ),
-                // ),
                 Positioned(
                   top: context.pagePadding.top,
                   left: context.pagePadding.left,
@@ -84,7 +79,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
               Content(
                 data: "Product Name",
                 size: 24.sp,
-                textStyle: context.headingText,
+                textStyle: context.headingText.copyWith(color: AppColor.black),
               ),
               Content(
                 data: "\$ 50.00",
@@ -101,7 +96,97 @@ class _ProductdetailViewState extends State<ProductdetailView> {
               fontWeight: AppFontWeight.light,
             ),
           ).paddingSymmetric(horizontal: context.pagePadding.left),
+
+          SizedBox(height: 20),
+
+          Row(
+            spacing: 20,
+            children: [
+              Expanded(
+                child: IconBox(
+                  title: 'Free Delivery',
+                  imageUrl: Icons.delivery_dining_rounded,
+                ),
+              ),
+              Expanded(
+                child: IconBox(
+                  title: '30 Minutes',
+                  imageUrl: Icons.access_time_sharp,
+                ),
+              ),
+              Expanded(
+                child: IconBox(
+                  title: '4.5 Rating',
+                  imageUrl: Icons.star_border,
+                ),
+              ),
+            ],
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+          SizedBox(height: 20),
+          Content(
+            data: "Product Category",
+            size: 18.sp,
+            textStyle: context.subHeadingText.copyWith(
+              color: AppColor.black,
+              fontWeight: AppFontWeight.semiBold,
+            ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+          SizedBox(height: 10),
+          Content(
+            data:
+                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+            size: 14.sp,
+            textStyle: context.subHeadingText.copyWith(
+              color: AppColor.black,
+              fontWeight: AppFontWeight.light,
+            ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+
+          SizedBox(height: 20),
+          Content(
+            data: "Sized Options",
+            size: 18.sp,
+            textStyle: context.subHeadingText.copyWith(
+              color: AppColor.black,
+              fontWeight: AppFontWeight.semiBold,
+            ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+          SizedBox(height: 10),
+
+          Row(
+            spacing: 5,
+            children: List.generate(
+              sizes.length,
+              (index) => ProductSizeWidget(
+                text: sizes[index],
+                isSelected: selectedIndex == index,
+                onTap: () {
+                  setState(() {
+                    selectedIndex = selectedIndex == index ? -1 : index;
+                  });
+                },
+              ),
+            ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
         ],
+      ),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.fromLTRB(
+          context.pagePadding.left,
+          10,
+          context.pagePadding.left,
+          MediaQuery.of(context).viewInsets.bottom < 10
+              ? context.pagePadding.bottom
+              : context.pagePadding.bottom,
+        ),
+        child: Row(
+          children: [
+            Expanded(child: QuantityButton()),
+            Expanded(
+              child: AppButton(title: "Add to Cart", onTap: () {}, radius: 12),
+            ),
+          ],
+        ),
       ),
     );
   }
