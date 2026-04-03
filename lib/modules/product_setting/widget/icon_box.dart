@@ -15,7 +15,7 @@ class IconBox extends StatelessWidget {
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: 90,
-      height: 90,
+      height: 70,
       decoration: BoxDecoration(
         color: AppColor.highlight,
         borderRadius: BorderRadius.circular(12),
@@ -25,9 +25,9 @@ class IconBox extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-
+      
         children: [
-          Icon(imageUrl, size: 36, color: AppColor.primary),
+          Icon(imageUrl, size: 28, color: AppColor.primary),
           Expanded(
             child: Content(
               data: title,
@@ -35,7 +35,7 @@ class IconBox extends StatelessWidget {
                 color: AppColor.primary,
                 fontWeight: AppFontWeight.medium,
               ),
-              size: 14,
+              size: 12,
               alignment: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,

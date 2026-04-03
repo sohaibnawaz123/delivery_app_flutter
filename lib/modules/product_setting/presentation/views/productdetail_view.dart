@@ -10,6 +10,8 @@ import 'package:delivery_app/core/utils/extension/app_text_style.dart';
 import 'package:delivery_app/modules/product_setting/widget/icon_box.dart';
 import 'package:delivery_app/modules/product_setting/widget/product_size_widget.dart';
 import 'package:delivery_app/modules/product_setting/widget/quantity_button.dart';
+import 'package:delivery_app/modules/product_setting/widget/review_card.dart';
+import 'package:delivery_app/modules/product_setting/demo/product_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
@@ -23,20 +25,9 @@ class ProductdetailView extends StatefulWidget {
   State<ProductdetailView> createState() => _ProductdetailViewState();
 }
 
+int selectedIndex = -1; // Track selected size index
+
 class _ProductdetailViewState extends State<ProductdetailView> {
-  final List<String> imageUrls = [
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
-    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=600&q=80',
-  ];
-
-  final List<String> sizes = ['12"', '14"', '16"', '18"'];
-  int selectedIndex = -1; // Track selected size index
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +48,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           SizedBox(
             child: Stack(
               children: [
-                ProductImageCarosul(imageUrls: imageUrls),
+                ProductImageCarosul(imageUrls: demoProduct.imageUrls),
                 Positioned(
                   top: context.pagePadding.top,
                   left: context.pagePadding.left,
@@ -77,19 +68,19 @@ class _ProductdetailViewState extends State<ProductdetailView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Content(
-                data: "Product Name",
+                data: demoProduct.name,
                 size: 24.sp,
                 textStyle: context.headingText.copyWith(color: AppColor.black),
               ),
               Content(
-                data: "\$ 50.00",
+                data: "\$ ${demoProduct.price.toStringAsFixed(2)}",
                 size: 24.sp,
                 textStyle: context.headingText,
               ),
             ],
           ).paddingSymmetric(horizontal: context.pagePadding.left),
           Content(
-            data: "Product Category",
+            data: demoProduct.category,
             size: 16.sp,
             textStyle: context.subHeadingText.copyWith(
               color: AppColor.black,
@@ -116,7 +107,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
               ),
               Expanded(
                 child: IconBox(
-                  title: '4.5 Rating',
+                  title: '${demoProduct.rating} Rating',
                   imageUrl: Icons.star_border,
                 ),
               ),
@@ -124,7 +115,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           ).paddingSymmetric(horizontal: context.pagePadding.left),
           SizedBox(height: 20),
           Content(
-            data: "Product Category",
+            data: demoProduct.category,
             size: 18.sp,
             textStyle: context.subHeadingText.copyWith(
               color: AppColor.black,
@@ -133,8 +124,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           ).paddingSymmetric(horizontal: context.pagePadding.left),
           SizedBox(height: 10),
           Content(
-            data:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+            data: demoProduct.description,
             size: 14.sp,
             textStyle: context.subHeadingText.copyWith(
               color: AppColor.black,
@@ -156,9 +146,9 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           Row(
             spacing: 5,
             children: List.generate(
-              sizes.length,
+              demoProduct.sizes.length,
               (index) => ProductSizeWidget(
-                text: sizes[index],
+                text: demoProduct.sizes[index],
                 isSelected: selectedIndex == index,
                 onTap: () {
                   setState(() {
@@ -167,6 +157,30 @@ class _ProductdetailViewState extends State<ProductdetailView> {
                 },
               ),
             ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+          SizedBox(height: 20),
+          Content(
+            data: "Reviews",
+            size: 18.sp,
+            textStyle: context.subHeadingText.copyWith(
+              color: AppColor.black,
+              fontWeight: AppFontWeight.semiBold,
+            ),
+          ).paddingSymmetric(horizontal: context.pagePadding.left),
+          SizedBox(height: 10),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: demoProduct.reviews.length,
+            separatorBuilder: (context, index) => SizedBox(height: 10),
+            itemBuilder: (context, index) {
+              final review = demoProduct.reviews[index];
+              return ReviewCard(
+                userName: review.userName,
+                rating: review.rating,
+                comment: review.comment,
+              );
+            },
           ).paddingSymmetric(horizontal: context.pagePadding.left),
         ],
       ),
@@ -183,7 +197,7 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           children: [
             Expanded(child: QuantityButton()),
             Expanded(
-              child: AppButton(title: "Add to Cart", onTap: () {}, radius: 12),
+              child: AppButton(title: "Add to Cart", onTap: () {}, radius: 50),
             ),
           ],
         ),
