@@ -5,8 +5,13 @@ import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
 import 'package:delivery_app/core/utils/extension/app_padding.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/main.dart';
+import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboardcart/dashboardcart_bloc.dart';
+import 'package:delivery_app/modules/dashboard/presentation/routes/dashboardcart_view_initial_params.dart';
+import 'package:delivery_app/modules/dashboard/presentation/views/dashboardcart_view.dart';
 import 'package:delivery_app/modules/product_setting/widget/icon_box.dart';
 import 'package:delivery_app/modules/product_setting/widget/product_size_widget.dart';
 import 'package:delivery_app/modules/product_setting/widget/quantity_button.dart';
@@ -197,7 +202,17 @@ class _ProductdetailViewState extends State<ProductdetailView> {
           children: [
             Expanded(child: QuantityButton()),
             Expanded(
-              child: AppButton(title: "Add to Cart", onTap: () {}, radius: 50),
+              child: AppButton(
+                title: "Add to Cart",
+                onTap: () {
+                  context.pushPage(
+                    DashboardcartView(
+                      bloc: getIt<DashboardcartBloc>(param1: DashboardcartViewInitialParams()),
+                    ),
+                  );
+                },
+                radius: 50,
+              ),
             ),
           ],
         ),
@@ -290,12 +305,11 @@ class _ProductImageCarosulState extends State<ProductImageCarosul> {
             padding: EdgeInsets.symmetric(horizontal: context.pagePadding.left),
             child: SizedBox(
               height: 50,
-              child: ListView.builder(
+              child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: images.length,
+                separatorBuilder: (context, index) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
-                  final isSelected = index == _currentIndex;
-                  log('Image URL: ${images[index]}, isSelected: $isSelected');
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -307,22 +321,13 @@ class _ProductImageCarosulState extends State<ProductImageCarosul> {
                         );
                       });
                     },
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 2),
-                      decoration: BoxDecoration(
-                        border: isSelected
-                            ? Border.all(color: AppColor.primary, width: 2)
-                            : null,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(6),
-                        child: Image.network(
-                          images[index],
-                          width: 48,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Image.network(
+                        images[index],
+                        width: 48,
+                        height: 50,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   );

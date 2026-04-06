@@ -1,26 +1,159 @@
+import 'package:delivery_app/component/app_bar/custome_header_widget.dart';
+import 'package:delivery_app/component/button/app_button.dart';
+import 'package:delivery_app/component/text/content.dart';
+import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
+import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/modules/dashboard/presentation/widgets/cart_product_card.dart';
+import 'package:delivery_app/modules/dashboard/presentation/widgets/coupon_field.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboardcart/dashboardcart_bloc.dart';
 
 class DashboardcartView extends StatelessWidget {
   final DashboardcartBloc bloc;
-  const DashboardcartView({
-    super.key,
-    required this.bloc,
-  });
+  const DashboardcartView({super.key, required this.bloc});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: EdgeInsets.fromLTRB(
+        context.pagePadding.left,
+        context.pagePadding.top,
+        context.pagePadding.right,
+        context.pagePadding.bottom,
+      ),
+      children: [
+        HeaderWidget(title: "Cart"),
+        SizedBox(height: 0),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return CartProductCard();
+          },
+          separatorBuilder: (context, index) => SizedBox(height: 10),
+          itemCount: 5,
+        ),
+        SizedBox(height: 10),
+        CouponField(),
+        SizedBox(height: 20),
+        PriceBox(),
+        SizedBox(height: 20),
+        AppButton(title: 'Proceed to Checkout',
+        radius: 30,)
+      ],
+    );
+  }
+}
+
+class PriceBox extends StatelessWidget {
+  const PriceBox({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.white,
-      alignment: Alignment.center,
-      child: const Text(
-        'Dashboard Cart',
-        style: TextStyle(
-          color: AppColor.primaryText,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: AppColor.base,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: "Total Items",
+                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+              ),
+              Content(
+                data: "5",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: "Subtotal",
+                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+              ),
+              Content(
+                data: "\$199.99",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: "Tax",
+                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+              ),
+              Content(
+                data: "0.05%",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: "Delivery Fee",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.medium,
+                ),
+              ),
+              Content(
+                data: "\$9.99",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8),
+          Divider(height: 2, color: AppColor.primary.withValues(alpha: 0.5)),
+          SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Content(
+                data: "Total",
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.medium,
+                ),
+              ),
+              Content(
+                data: "\$209.98",
+                textStyle: context.bodyText.copyWith(
+                  fontWeight: AppFontWeight.bold,
+                  color: AppColor.primary,
+                ),
+                
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
