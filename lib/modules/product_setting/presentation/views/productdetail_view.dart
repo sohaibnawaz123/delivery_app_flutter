@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:delivery_app/component/app_bar/custome_header_widget.dart';
 import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/component/text/content.dart';

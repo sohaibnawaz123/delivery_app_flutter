@@ -12,6 +12,7 @@ class AppAsset {
   // static const String google = '$_icons/google.svg';
   static const String eye = '$_icons/eye.svg';
   static const String eyeOff = '$_icons/eyeoff.svg';
+  static const String location = '$_icons/location.svg';
 
   static const String fastDelivery = '$_icons/fast_delivery.svg';
   static const String find = '$_icons/search.svg';
@@ -33,5 +34,12 @@ class AppAsset {
   static const String cartOutline = '$_icons/cart_outline.svg';
   static const String settingOutline = '$_icons/settings_outline.svg';
   static const String filter = '$_icons/filtter.svg';
+  // payment icons
+  static const String cash = '$_icons/payment.svg';
+  static const String visa = '$_icons/visa.svg';
+  static const String paypal = '$_icons/paypal.svg';
+  static const String creditCard = '$_icons/credit-card.svg';
+
+
 
 }

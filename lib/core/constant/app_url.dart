@@ -15,6 +15,7 @@ class AppUrl {
   static String fetchAllProductUrl = '';
   static String productdetailUrl = '';
   static String cartUrl = '';
+  static String checkoutUrl = '';
 
 
 }

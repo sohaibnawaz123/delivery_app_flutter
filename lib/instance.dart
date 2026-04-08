@@ -102,6 +102,14 @@ import 'package:delivery_app/modules/product_setting/domain/repository/productde
 import 'package:delivery_app/modules/product_setting/domain/usecase/productdetail_use_case.dart';
 import 'package:delivery_app/modules/product_setting/presentation/blocs/productdetail/productdetail_bloc.dart';
 import 'package:delivery_app/modules/product_setting/presentation/routes/productdetail_view_initial_params.dart';
+import 'package:delivery_app/modules/dashboard/data/datasource/checkout_remote_data_source.dart';
+import 'package:delivery_app/modules/dashboard/data/datasource/checkout_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/dashboard/data/rest_api/checkout_rest_api_repo.dart';
+import 'package:delivery_app/modules/dashboard/domain/repository/checkout_repo.dart';
+import 'package:delivery_app/modules/dashboard/domain/usecase/checkout_use_case.dart';
+import 'package:delivery_app/modules/dashboard/presentation/blocs/checkout/checkout_bloc.dart';
+import 'package:delivery_app/modules/dashboard/presentation/routes/checkout_view_initial_params.dart';
+
 void getInstance(BuildContext context) {
   getIt = GetIt.instance;
   getIt.registerSingleton<Network>(NetworkService());
@@ -321,5 +329,16 @@ void getInstance(BuildContext context) {
     ProductdetailViewInitialParams,
     dynamic
   >((params, _) => ProductdetailBloc(params, getIt()));
+  // <<<<<<<<<<<<<<<<<<<<<<<  Checkout  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<CheckoutRemoteDataSource>(
+    CheckoutRemoteDataSourceImpl(getIt(), getIt()),
+  );
 
+  getIt.registerSingleton<CheckoutRepo>(CheckoutRestApiRepo(getIt()));
+
+  getIt.registerSingleton<CheckoutUseCase>(CheckoutUseCase(getIt()));
+
+  getIt.registerFactoryParam<CheckoutBloc, CheckoutViewInitialParams, dynamic>(
+    (params, _) => CheckoutBloc(params, getIt()),
+  );
 }

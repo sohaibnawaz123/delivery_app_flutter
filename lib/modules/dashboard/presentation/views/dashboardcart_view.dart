@@ -3,7 +3,12 @@ import 'package:delivery_app/component/button/app_button.dart';
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
+import 'package:delivery_app/main.dart';
+import 'package:delivery_app/modules/dashboard/presentation/blocs/checkout/checkout_bloc.dart';
+import 'package:delivery_app/modules/dashboard/presentation/routes/checkout_view_initial_params.dart';
+import 'package:delivery_app/modules/dashboard/presentation/views/checkout_view.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/cart_product_card.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/coupon_field.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +45,15 @@ class DashboardcartView extends StatelessWidget {
         SizedBox(height: 20),
         PriceBox(),
         SizedBox(height: 20),
-        AppButton(title: 'Proceed to Checkout',
-        radius: 30,)
+        AppButton(
+          title: 'Proceed to Checkout',
+          onTap: () => context.pushPage(
+            CheckoutView(
+              bloc: getIt<CheckoutBloc>(param1: CheckoutViewInitialParams()),
+            ),
+          ),
+          radius: 30,
+        ),
       ],
     );
   }
@@ -65,7 +77,10 @@ class PriceBox extends StatelessWidget {
             children: [
               Content(
                 data: "Total Items",
-                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.medium,
+                ),
               ),
               Content(
                 data: "5",
@@ -82,7 +97,10 @@ class PriceBox extends StatelessWidget {
             children: [
               Content(
                 data: "Subtotal",
-                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.medium,
+                ),
               ),
               Content(
                 data: "\$199.99",
@@ -99,7 +117,10 @@ class PriceBox extends StatelessWidget {
             children: [
               Content(
                 data: "Tax",
-                textStyle: context.bodyText.copyWith(color: AppColor.black,fontWeight: AppFontWeight.medium),
+                textStyle: context.bodyText.copyWith(
+                  color: AppColor.black,
+                  fontWeight: AppFontWeight.medium,
+                ),
               ),
               Content(
                 data: "0.05%",
@@ -149,7 +170,6 @@ class PriceBox extends StatelessWidget {
                   fontWeight: AppFontWeight.bold,
                   color: AppColor.primary,
                 ),
-                
               ),
             ],
           ),
