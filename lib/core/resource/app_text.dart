@@ -10,7 +10,7 @@ class AppText {
         // letterSpacing: -0.8,
         height: 1.2,
       ),
-      _secondaryTextStyle = GoogleFonts.anton(
+      _secondaryTextStyle = GoogleFonts.archivo(
         fontWeight: AppFontWeight.regular,
         letterSpacing: -0.5,
         height: 1.1,

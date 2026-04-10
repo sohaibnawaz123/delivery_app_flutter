@@ -1,3 +1,4 @@
+import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:delivery_app/component/text/content.dart';
@@ -22,9 +23,9 @@ Future<T?> appBottomSheet<T>(
     context: context,
     isScrollControlled: true,
 
-    backgroundColor: AppColor.base,
+    backgroundColor: AppColor.white,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
     builder: (context) => Padding(
       padding: EdgeInsets.only(
@@ -52,9 +53,11 @@ Future<T?> appBottomSheet<T>(
               if (title != null)
                 Content(
                   data: title.toUpperCase(),
-                  size: 28,
+                  size: 24,
                   alignment: TextAlign.center,
-                  textStyle: context.titleText,
+                  textStyle: context.titleText.copyWith(
+                    fontWeight: AppFontWeight.medium
+                  ),
                 ).paddingOnly(bottom: 18.h),
               if (subTitle != null)
                 Content(

@@ -21,52 +21,55 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).viewInsets.top + 10),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Centered title and category
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Content(
-                data: title ?? "",
-                size: 24.sp,
-                textStyle: context.headingText.copyWith(
-                  fontWeight: AppFontWeight.semiBold,
-                  color: titleColor ?? AppColor.primaryText,
-                ),
-              ),
-              if (category != null) ...[
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).viewInsets.top + 10),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            // Centered title and category
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
                 Content(
-                  data: category ?? "",
-                  size: 16.sp,
-                  textStyle: context.bodyText.copyWith(
-                    fontWeight: AppFontWeight.regular,
-                    color: AppColor.secondaryText,
+                  data: title ?? "",
+                  size: 24.sp,
+                  textStyle: context.headingText.copyWith(
+                    fontWeight: AppFontWeight.semiBold,
+                    color: titleColor ?? AppColor.primaryText,
                   ),
                 ),
-              ],
-            ],
-          ),
-          // Back button aligned left
-          showBackButton
-              ? Positioned(
-                  left: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: GestureDetector(
-                    onTap: () => context.popPage(),
-                    child: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: iconColor ?? AppColor.primary,
+                if (category != null) ...[
+                  Content(
+                    data: category ?? "",
+                    size: 16.sp,
+                    textStyle: context.bodyText.copyWith(
+                      fontWeight: AppFontWeight.regular,
+                      color: AppColor.secondaryText,
                     ),
                   ),
-                )
-              : SizedBox.shrink(),
-        ],
+                ],
+              ],
+            ),
+            // Back button aligned left
+            showBackButton
+                ? Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: GestureDetector(
+                      onTap: () => context.popPage(),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: iconColor ?? AppColor.primary,
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }

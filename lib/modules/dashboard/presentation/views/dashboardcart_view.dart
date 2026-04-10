@@ -21,40 +21,43 @@ class DashboardcartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(
-        context.pagePadding.left,
-        context.pagePadding.top,
-        context.pagePadding.right,
-        context.pagePadding.bottom,
-      ),
-      children: [
-        HeaderWidget(title: "Cart"),
-        SizedBox(height: 0),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return CartProductCard();
-          },
-          separatorBuilder: (context, index) => SizedBox(height: 10),
-          itemCount: 5,
+    return Scaffold(
+      backgroundColor: AppColor.white,
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(
+          context.pagePadding.left,
+          context.pagePadding.top,
+          context.pagePadding.right,
+          context.pagePadding.bottom,
         ),
-        SizedBox(height: 10),
-        CouponField(),
-        SizedBox(height: 20),
-        PriceBox(),
-        SizedBox(height: 20),
-        AppButton(
-          title: 'Proceed to Checkout',
-          onTap: () => context.pushPage(
-            CheckoutView(
-              bloc: getIt<CheckoutBloc>(param1: CheckoutViewInitialParams()),
-            ),
+        children: [
+          HeaderWidget(title: "Cart"),
+          SizedBox(height: 0),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return CartProductCard();
+            },
+            separatorBuilder: (context, index) => SizedBox(height: 10),
+            itemCount: 5,
           ),
-          radius: 30,
-        ),
-      ],
+          SizedBox(height: 10),
+          CouponField(),
+          SizedBox(height: 20),
+          PriceBox(),
+          SizedBox(height: 20),
+          AppButton(
+            title: 'Proceed to Checkout',
+            onTap: () => context.pushPage(
+              CheckoutView(
+                bloc: getIt<CheckoutBloc>(param1: CheckoutViewInitialParams()),
+              ),
+            ),
+            radius: 30,
+          ),
+        ],
+      ),
     );
   }
 }

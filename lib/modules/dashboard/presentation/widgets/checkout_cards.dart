@@ -7,8 +7,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CheckoutCards extends StatelessWidget {
   final String title;
+  final String iconPath;
   final VoidCallback onTap;
-  const CheckoutCards({super.key, required this.title, required this.onTap});
+  const CheckoutCards({super.key, required this.title, required this.iconPath, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,12 @@ class CheckoutCards extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              'assets/icons/location.svg',
+              iconPath,
               width: 24,
               height: 24,
-              color: AppColor.black.withValues(alpha: 0.8),
+              // color: AppColor.primary,
             ),
-            SizedBox(width: 5),
+            SizedBox(width: 10),
             Expanded(
               child: Content(
                 data: title,
