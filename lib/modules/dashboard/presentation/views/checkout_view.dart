@@ -6,7 +6,6 @@ import 'package:delivery_app/component/text_field/content_field.dart';
 import 'package:delivery_app/core/resource/app_asset.dart';
 import 'package:delivery_app/core/utils/extension/app_edge_insets.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
-import 'package:delivery_app/modules/auth/presentation/widgets/auth_header.dart';
 import 'package:delivery_app/modules/dashboard/presentation/widgets/checkout_cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -130,7 +129,7 @@ class PaymentMethodSection extends StatelessWidget {
         ),
       ],
     );
-    ;
+   
   }
 }
 
