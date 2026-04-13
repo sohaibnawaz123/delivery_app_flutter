@@ -54,9 +54,11 @@ class ContentField extends StatefulWidget {
     this.onFieldSubmitted,
     this.validator,
     this.onTapOutside,
+    this.maxLength,
   });
 
   final TextEditingController? controller;
+  final int? maxLength;
   final bool enabled;
   final String? initialValue;
   final bool obscureText;
@@ -119,6 +121,9 @@ class _ContentFieldState extends State<ContentField> {
   Widget build(BuildContext context) {
     final isPassword = widget.obscureText;
     return TextFormField(
+      maxLengthEnforcement: MaxLengthEnforcement.none,
+      maxLength: widget.maxLength,
+      buildCounter: (context, {required currentLength, required isFocused, maxLength}) => null,
       obscuringCharacter: '*',
 
       onTapOutside:

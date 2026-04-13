@@ -102,12 +102,7 @@ class PaymentMethodSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void openBottomSheet(Widget child) {
-      appBottomSheet(
-        context,
-        child,
-        isMaxHeight: false,
-        maxHeight: 1,
-      );
+      appBottomSheet(context, child, isMaxHeight: false, maxHeight: 1);
     }
 
     return Column(
@@ -134,20 +129,210 @@ class PaymentMethodSection extends StatelessWidget {
 }
 
 class ProductListSection extends StatelessWidget {
-  const ProductListSection({super.key});
+  ProductListSection({super.key});
 
+  final List<ProductEntity> products = [
+    ProductEntity(
+      name: 'Cake',
+      description: 'Delicious chocolate cake',
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      price: 20.0,
+      quantity: 1,
+      rate: 4.5,
+    ),
+    ProductEntity(
+      name: 'Pizza',
+      description: 'Cheesy pepperoni pizza',
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      price: 15.0,
+      quantity: 2,
+      rate: 4.0,
+    ),
+    ProductEntity(
+      name: 'Burger',
+      description: 'Juicy beef burger',
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      price: 10.0,
+      quantity: 3,
+      rate: 4.2,
+    ),
+    ProductEntity(
+      name: "Fries",
+      description: 'Crispy golden fries',
+      imageUrl: 'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+      price: 5.0,
+      quantity: 1,
+      rate: 4.0,
+    ),
+  ];
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Content(
+          data: "Product List",
+          textStyle: context.headingText.copyWith(color: AppColor.black),
+          size: 20,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.43,
+          child: ListView.separated(
+            padding: EdgeInsets.symmetric(vertical: 5),
+            // physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (content, index) {
+              return ProductListTile(product: products[index]);
+            },
+            separatorBuilder: (cxt, index) {
+              return SizedBox(height: 8);
+            },
+            itemCount: products.length,
+          ),
+        ),
+      ],
+    );
   }
 }
 
 class CalculationSection extends StatelessWidget {
   const CalculationSection({super.key});
+  final List<Map<String, dynamic>> calculations = const [
+    {"label": "Subtotal", "value": 50.00, "icon": Icons.shopping_cart,},
+    {"label": "Delivery Fee", "value": 5.00, "icon": Icons.delivery_dining,},
+    {"label": "Tax", "value": 4.50, "icon": Icons.receipt_long,
+    },
+    {"label": "Discount", "value": 0.05, "icon": Icons.local_offer,
+    },
+    {"label": "Total", "value": 59.50, "icon": Icons.attach_money},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Content(
+          data: "Price Details",
+          textStyle: context.headingText.copyWith(color: AppColor.black),
+          size: 20,
+        ),
+        SizedBox(height: 10),
+        Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppColor.base,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.04),
+                blurRadius: 12,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+        
+            children: [
+               
+              ...calculations.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final calc = entry.value;
+                final isTotal = calc['label'] == "Total";
+                final isDiscount = calc['label'] == "Discount";
+                final valueWidget = isDiscount
+                    ? Row(
+                        children: [
+                          Icon(Icons.arrow_downward, color: Colors.green, size: isTotal ? 28 : 22),
+                          SizedBox(width: 2),
+                          Content(
+                            data: "-${(calc['value'] * 100).toStringAsFixed(0)}%",
+                            textStyle: context.bodyText.copyWith(
+                              color: Colors.green.shade700,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            size: isTotal ? 22 : 16,
+                          ),
+                        ],
+                      )
+                    : Content(
+                        data: "${calc['value'] is double ? "\$${calc['value'].toStringAsFixed(2)}" : (calc['value'] * 100).toStringAsFixed(0) + '%'}",
+                        textStyle: context.bodyText.copyWith(
+                          color: isTotal ? AppColor.primary : AppColor.black,
+                          fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+                        ),
+                        size: isTotal ? 24 : 18,
+                      );
+                return Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: isTotal ? 10 : 6, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: isTotal
+                            ? null
+                            : AppColor.white.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(isTotal ? 12 : 8),
+                        border: isTotal
+                            ? Border.all(color: AppColor.primary, width: 1.5)
+                            : null,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppColor.white.withOpacity(0.6),
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.07),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.all(6),
+                                child: Icon(calc['icon'], color: isTotal ? AppColor.primary : AppColor.secondaryText, size: isTotal ? 28 : 22),
+                              ),
+                              SizedBox(width: 10),
+                              Content(
+                                data: calc['label'],
+                                textStyle: context.bodyText.copyWith(
+                                  color: AppColor.black,
+                                  fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
+                                ),
+                                size: isTotal ? 18 : 16,
+                              ),
+                            ],
+                          ),
+                          valueWidget,
+                        ],
+                      ),
+                    ),
+                    if (idx != calculations.length - 1)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: Divider(
+                          color: AppColor.highlight.withOpacity(0.3),
+                          thickness: 1,
+                          height: 1,
+                        ),
+                      ),
+                  ],
+                );
+              }),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -526,10 +711,13 @@ class _AddNewPaymentCardState extends State<AddNewPaymentCard> {
             expiryDate: expiryController.text.isEmpty
                 ? null
                 : expiryController.text,
+
+            cvv: cvvController.text.isEmpty ? null : cvvController.text,
           ),
           SizedBox(height: 30),
           ContentField(
             keyboardType: TextInputType.number,
+            maxLength: 19,
             hintText: 'Card Number',
             controller: cardNumberController,
             onChanged: _onCardNumberChanged,
@@ -843,7 +1031,7 @@ class _AddNewPaymentCardState extends State<AddNewPaymentCard> {
             bottom: 42,
             left: 24,
             child: Text(
-              (cardHolderName ?? "LOUIS ANDERSON").toUpperCase(),
+              (cardHolderName ?? "Card Holder Name").toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 13,
@@ -912,4 +1100,129 @@ class _AddNewPaymentCardState extends State<AddNewPaymentCard> {
       ),
     );
   }
+}
+
+class ProductListTile extends StatelessWidget {
+  final ProductEntity product;
+
+  const ProductListTile({super.key, required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColor.highlight.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Image.network(
+            product.imageUrl,
+            width: 60,
+            height: 60,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Content(
+                      data: product.name,
+                      textStyle: context.headingText.copyWith(
+                        fontSize: 15,
+                        color: AppColor.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Content(
+                      data: product.rate.toString(),
+                      textStyle: context.headingText.copyWith(
+                        fontSize: 15,
+                        color: AppColor.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4),
+                Content(
+                  data: product.description,
+                  textStyle: context.bodyText.copyWith(
+                    color: AppColor.secondaryText,
+                  ),
+                  size: 12,
+                ),
+                SizedBox(height: 4),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: product.quantity.toString(),
+                        style: context.bodyText.copyWith(
+                          fontSize: 14,
+                          color: AppColor.secondaryText,
+                          fontWeight: FontWeight.bold,
+                        ),
+
+                        children: [
+                          TextSpan(
+                            text: ' x ',
+                            style: context.bodyText.copyWith(
+                              fontSize: 12,
+                              color: AppColor.secondaryText,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "\$${product.price.toStringAsFixed(2)}",
+                            style: context.bodyText.copyWith(
+                              fontSize: 14,
+                              color: AppColor.secondaryText,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Content(
+                      data:
+                          '\$${(product.price * product.quantity).toStringAsFixed(2)}',
+                      textStyle: context.headingText.copyWith(
+                        color: AppColor.primary,
+                      ),
+                      size: 14,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProductEntity {
+  final String name;
+  final String description;
+  final String imageUrl;
+  final double price;
+  final int quantity;
+  final double rate;
+
+  ProductEntity({
+    required this.name,
+    required this.description,
+    required this.imageUrl,
+    required this.price,
+    required this.quantity,
+    required this.rate,
+  });
 }
