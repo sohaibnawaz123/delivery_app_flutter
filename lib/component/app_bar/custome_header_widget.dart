@@ -11,20 +11,28 @@ class HeaderWidget extends StatelessWidget {
     super.key,
     this.title,
     this.category,
-    this.showBackButton = true, this.titleColor, this.iconColor,
+    this.showBackButton = true,
+    this.showactions = false,
+    this.titleColor,
+    this.iconColor,
+    this.actions,
   });
   final String? title;
   final String? category;
   final Color? titleColor;
   final Color? iconColor;
   final bool showBackButton;
+  final bool showactions;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).viewInsets.top + 10),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).viewInsets.top + 10,
+        ),
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -65,6 +73,19 @@ class HeaderWidget extends StatelessWidget {
                         Icons.arrow_back_ios_new_rounded,
                         color: iconColor ?? AppColor.primary,
                       ),
+                    ),
+                  )
+                : SizedBox.shrink(),
+            showactions
+                ? Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: 5.w,
+                      children: actions ?? [],
                     ),
                   )
                 : SizedBox.shrink(),

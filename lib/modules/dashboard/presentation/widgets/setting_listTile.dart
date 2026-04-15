@@ -1,6 +1,8 @@
+import 'package:delivery_app/component/bottom_sheet/app_bottom_sheet.dart';
 import 'package:delivery_app/component/text/content.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/core/utils/extension/app_font_weight.dart';
+import 'package:delivery_app/core/utils/extension/app_navigation.dart';
 import 'package:delivery_app/core/utils/extension/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +17,22 @@ class SettingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: entity.child != null ? () {} : null,
+     onTap: () {
+        if (entity.child == null) return;
+
+        switch (entity.actionType) {
+          case SettingActionType.screen:
+            context.pushPage(entity.child!);
+            break;
+
+          case SettingActionType.bottomSheet:
+            appBottomSheet(context, entity.child!);
+            break;
+
+          case SettingActionType.none:
+            break;
+        }
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
@@ -57,14 +74,18 @@ class SettingListTile extends StatelessWidget {
     );
   }
 }
+enum SettingActionType { screen, bottomSheet, none }
+
 class SettingListTileEntity {
   final String title;
   final String iconPath;
   final Widget? child;
+  final SettingActionType actionType;
 
   SettingListTileEntity({
     required this.title,
     required this.iconPath,
     this.child,
+    this.actionType = SettingActionType.none,
   });
 }

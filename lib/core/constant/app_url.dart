@@ -16,6 +16,10 @@ class AppUrl {
   static String productdetailUrl = '';
   static String cartUrl = '';
   static String checkoutUrl = '';
+  static String accountsettingUrl = '';
+  static String myordersUrl = '';
+  static String privacysettingUrl = '';
+  
 
 
 }

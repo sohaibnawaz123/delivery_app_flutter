@@ -49,3 +49,5 @@ extension WidgetMarginX on Widget {
 
   Widget get marginZero => Container(margin: EdgeInsets.zero, child: this);
 }
+
+/// Ensure the parent widget provides bounded constraints when using padding extensions.

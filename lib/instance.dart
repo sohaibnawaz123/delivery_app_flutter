@@ -109,7 +109,27 @@ import 'package:delivery_app/modules/dashboard/domain/repository/checkout_repo.d
 import 'package:delivery_app/modules/dashboard/domain/usecase/checkout_use_case.dart';
 import 'package:delivery_app/modules/dashboard/presentation/blocs/checkout/checkout_bloc.dart';
 import 'package:delivery_app/modules/dashboard/presentation/routes/checkout_view_initial_params.dart';
-
+import 'package:delivery_app/modules/settingmodule/data/datasource/accountsetting_remote_data_source.dart';
+import 'package:delivery_app/modules/settingmodule/data/datasource/accountsetting_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/settingmodule/data/rest_api/accountsetting_rest_api_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/repository/accountsetting_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/usecase/accountsetting_use_case.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/blocs/accountsetting/accountsetting_bloc.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/routes/accountsetting_view_initial_params.dart';
+import 'package:delivery_app/modules/settingmodule/data/datasource/myorders_remote_data_source.dart';
+import 'package:delivery_app/modules/settingmodule/data/datasource/myorders_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/settingmodule/data/rest_api/myorders_rest_api_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/repository/myorders_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/usecase/myorders_use_case.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/blocs/myorders/myorders_bloc.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/routes/myorders_view_initial_params.dart';
+import 'package:delivery_app/modules/settingmodule/data/datasource/privacysetting_remote_data_source.dart';
+import 'package:delivery_app/modules/settingmodule/data/datasource/privacysetting_remote_data_source_impl.dart';
+import 'package:delivery_app/modules/settingmodule/data/rest_api/privacysetting_rest_api_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/repository/privacysetting_repo.dart';
+import 'package:delivery_app/modules/settingmodule/domain/usecase/privacysetting_use_case.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/blocs/privacysetting/privacysetting_bloc.dart';
+import 'package:delivery_app/modules/settingmodule/presentation/routes/privacysetting_view_initial_params.dart';
 void getInstance(BuildContext context) {
   getIt = GetIt.instance;
   getIt.registerSingleton<Network>(NetworkService());
@@ -341,4 +361,54 @@ void getInstance(BuildContext context) {
   getIt.registerFactoryParam<CheckoutBloc, CheckoutViewInitialParams, dynamic>(
     (params, _) => CheckoutBloc(params, getIt()),
   );
+  // <<<<<<<<<<<<<<<<<<<<<<<  Accountsetting  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<AccountsettingRemoteDataSource>(
+    AccountsettingRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<AccountsettingRepo>(
+    AccountsettingRestApiRepo(getIt()),
+  );
+
+  getIt.registerSingleton<AccountsettingUseCase>(
+    AccountsettingUseCase(getIt()),
+  );
+
+  getIt.registerFactoryParam<
+    AccountsettingBloc,
+    AccountsettingViewInitialParams,
+    dynamic
+  >((params, _) => AccountsettingBloc(params, getIt()));
+// <<<<<<<<<<<<<<<<<<<<<<<  Myorders  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<MyordersRemoteDataSource>(
+    MyordersRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<MyordersRepo>(MyordersRestApiRepo(getIt()));
+
+  getIt.registerSingleton<MyordersUseCase>(MyordersUseCase(getIt()));
+
+  getIt.registerFactoryParam<MyordersBloc, MyordersViewInitialParams, dynamic>(
+    (params, _) => MyordersBloc(params, getIt()),
+  );
+
+// <<<<<<<<<<<<<<<<<<<<<<<  Privacysetting  >>>>>>>>>>>>>>>>>>>>>>>
+  getIt.registerSingleton<PrivacysettingRemoteDataSource>(
+    PrivacysettingRemoteDataSourceImpl(getIt(), getIt()),
+  );
+
+  getIt.registerSingleton<PrivacysettingRepo>(
+    PrivacysettingRestApiRepo(getIt()),
+  );
+
+  getIt.registerSingleton<PrivacysettingUseCase>(
+    PrivacysettingUseCase(getIt()),
+  );
+
+  getIt.registerFactoryParam<
+    PrivacysettingBloc,
+    PrivacysettingViewInitialParams,
+    dynamic
+  >((params, _) => PrivacysettingBloc(params, getIt()));
+
 }
