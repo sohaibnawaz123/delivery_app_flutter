@@ -40,6 +40,16 @@ class AppAsset {
   static const String paypal = '$_icons/paypal.svg';
   static const String creditCard = '$_icons/credit-card.svg';
 
+  //Settings icons
+  static const String profile = '$_icons/account.svg';
+  static const String order = '$_icons/orders.svg';
+  static const String payment = '$_icons/payment-method.svg';
+  static const String voucher = '$_icons/voucher.svg';
+  static const String inviteFriend = '$_icons/invite.svg';
+  static const String notification = '$_icons/notification.svg';
+  static const String privacy = '$_icons/policy.svg';
+  static const String logout = '$_icons/logout.svg';
+
 
 
 }
