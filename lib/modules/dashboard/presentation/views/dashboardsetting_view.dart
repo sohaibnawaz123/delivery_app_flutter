@@ -11,13 +11,10 @@ import 'package:delivery_app/modules/dashboard/presentation/widgets/payment_meth
 import 'package:delivery_app/modules/dashboard/presentation/widgets/setting_listTile.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/blocs/accountsetting/accountsetting_bloc.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/blocs/myorders/myorders_bloc.dart';
-import 'package:delivery_app/modules/settingmodule/presentation/blocs/privacysetting/privacysetting_bloc.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/routes/accountsetting_view_initial_params.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/routes/myorders_view_initial_params.dart';
-import 'package:delivery_app/modules/settingmodule/presentation/routes/privacysetting_view_initial_params.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/views/accountsetting_view.dart';
 import 'package:delivery_app/modules/settingmodule/presentation/views/myorders_view.dart';
-import 'package:delivery_app/modules/settingmodule/presentation/views/privacysetting_view.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_app/core/resource/app_color.dart';
 import 'package:delivery_app/modules/dashboard/presentation/blocs/dashboardsetting/dashboardsetting_bloc.dart';
@@ -75,22 +72,22 @@ class _DashboardsettingViewState extends State<DashboardsettingView> {
       child: null,
       actionType: SettingActionType.bottomSheet,
     ),
-    SettingListTileEntity(
-      title: 'Notification Settings',
-      iconPath: AppAsset.notification,
-      child: null,
-      actionType: SettingActionType.bottomSheet,
-    ),
-    SettingListTileEntity(
-      title: 'Privacy Settings',
-      iconPath: AppAsset.privacy,
-      child: PrivacysettingView(
-        bloc: getIt<PrivacysettingBloc>(
-          param1: PrivacysettingViewInitialParams(),
-        ),
-      ),
-      actionType: SettingActionType.screen,
-    ),
+    // SettingListTileEntity(
+    //   title: 'Notification Settings',
+    //   iconPath: AppAsset.notification,
+    //   child: null,
+    //   actionType: SettingActionType.bottomSheet,
+    // ),
+    // SettingListTileEntity(
+    //   title: 'Privacy Settings',
+    //   iconPath: AppAsset.privacy,
+    //   child: PrivacysettingView(
+    //     bloc: getIt<PrivacysettingBloc>(
+    //       param1: PrivacysettingViewInitialParams(),
+    //     ),
+    //   ),
+    //   actionType: SettingActionType.screen,
+    // ),
   ];
   @override
   Widget build(BuildContext context) {
