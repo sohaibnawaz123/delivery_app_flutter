@@ -47,9 +47,7 @@ class _DashboardsettingViewState extends State<DashboardsettingView> {
       title: 'My Orders',
       iconPath: AppAsset.order,
       child: MyordersView(
-        bloc: getIt<MyordersBloc>(
-          param1: MyordersViewInitialParams(),
-        ),
+        bloc: getIt<MyordersBloc>(param1: MyordersViewInitialParams()),
       ),
       actionType: SettingActionType.screen,
     ),
@@ -147,32 +145,12 @@ class _ProfilePictureState extends State<ProfilePicture> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Stack(
-          children: [
-            CircleAvatar(
-              backgroundImage: const NetworkImage(
-                'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
-              ),
-              radius: 50,
-              backgroundColor: AppColor.primary.withOpacity(0.1),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: AppColor.highlight,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.edit,
-                  color: AppColor.primary,
-                  size: 16,
-                ),
-              ),
-            ),
-          ],
+        CircleAvatar(
+          backgroundImage: const NetworkImage(
+            'https://cdn-icons-png.flaticon.com/512/1404/1404945.png',
+          ),
+          radius: 50,
+          backgroundColor: AppColor.primary.withOpacity(0.1),
         ),
         SizedBox(height: 10.h),
         Content(

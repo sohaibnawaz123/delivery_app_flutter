@@ -189,6 +189,7 @@ class _LabelContentFeildState extends State<LabelContentFeild> {
             // alignLabelWithHint: widget.alignLabelWithText,
           ),
           onTap: widget.onTap,
+          cursorColor: AppColor.primary,
           readOnly: widget.readOnly,
           keyboardType: widget.keyboardType,
           controller: widget.controller,
