@@ -1,9 +1,9 @@
 class AppUrl {
-  static String baseUrl = '';
+  static String baseUrl = 'http://192.168.200.4:3016/api/v1';
   static String onboardingUrl = '';
   static String joinusUrl = '';
-  static String loginUrl = '';
-  static String signupUrl = '';
+  static String loginUrl = '$baseUrl/auth/login';
+  static String signupUrl = '$baseUrl/auth/signup';
   static String forgetpasswordUrl = '';
   static String otpverifyUrl = '';
   static String resetpasswordUrl = '';
