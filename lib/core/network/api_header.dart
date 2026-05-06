@@ -27,6 +27,12 @@ class ApiHeader {
       'Authorization': "Bearer $token",
     };
   }
+  static Map<String, String> json() {
+    return {
+      ..._baseHeaders('application/json'),
+      'Content-Type': 'application/json',
+    };
+  }
 
   static Map<String, String> bearerHeaderWithMultipart(String token) {
     return {

@@ -1,17 +1,15 @@
-import 'pagination_entity.dart';
-
 class BaseEntity<T> {
-  final T data;
-  final PaginationEntity pagination;
-  final DateTime generatedAt;
-  final String statusCode;
-  final String userMessage;
+  final bool success;
+  final String message;
+  final T? data;
 
-  BaseEntity({
-    required this.data,
-    required this.pagination,
-    required this.generatedAt,
-    required this.statusCode,
-    required this.userMessage,
-  });
+  BaseEntity({required this.success, required this.message, this.data});
+
+  BaseEntity<T> copyWith(bool? success, String? message, T? data) {
+    return BaseEntity(
+      success: success ?? this.success,
+      message: message ?? this.message,
+      data: data ?? this.data,
+    );
+  }
 }

@@ -1,5 +1,5 @@
 class AppUrl {
-  static String baseUrl = 'http://192.168.200.4:3016/api/v1';
+  static const String baseUrl = 'http://192.168.137.1:9091/api';
   static String onboardingUrl = '';
   static String joinusUrl = '';
   static String loginUrl = '$baseUrl/auth/login';

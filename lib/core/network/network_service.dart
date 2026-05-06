@@ -297,7 +297,7 @@ class NetworkService extends Network {
 
   NetworkFailure? _handleError(http.Response response) {
     final status = response.statusCode;
-    final body = response.body.isNotEmpty ? jsonDecode(response.body) : {};
+    final body = _decodeBody(response);
     Utils.logError(body.toString(), name: 'Network HandleError');
 
     String? message() =>
@@ -318,7 +318,7 @@ class NetworkService extends Network {
       500 => ServerFailure(message()),
       502 => BadGateway(message()),
       504 => RequestTimeoutFailure(message()),
-      _ => NetworkFailure(message() ?? 'Something went wrong'),
+      _ => NetworkFailure(message() ?? 'Something went wrong', 'HTTP $status'),
     };
   }
 

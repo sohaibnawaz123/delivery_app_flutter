@@ -1,31 +1,30 @@
+import 'package:delivery_app/modules/auth/data/model/response/signup_model/user-model.dart';
 import 'package:delivery_app/modules/auth/domain/entities/signup_entity.dart';
 
 class SignupModel {
-  String? userMessage;
-  bool? status;
+  final UserModel? user;
+  final String? otp;
 
-  SignupModel({
-    this.userMessage,
-    this.status,
-  });
+  SignupModel({this.user, this.otp});
 
-  factory SignupModel.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      SignupModel(
-        userMessage: json['userMessage'] as String?,
-        status: json['status'] as bool?,
-      );
-
-  Map<String, dynamic> toJson() => {
-        'userMessage': userMessage,
-        'status': status,
-      };
-
-  SignupEntity toEntity() {
-    return SignupEntity(
-      userMessage: userMessage ?? '',
-      status: status ?? false,
+  factory SignupModel.fromJson(Map<String, dynamic> json) {
+    return SignupModel(
+      user: json['user'] != null
+          ? UserModel.fromJson(json['user'] as Map<String, dynamic>)
+          : null,
+      otp: json['otp']?.toString(),
     );
   }
+
+  Map<String, dynamic> toJson() => {'user': user?.toJson(), 'otp': otp};
+  // ✅ copyWith
+  SignupModel copyWith({UserModel? user, String? otp}) {
+    return SignupModel(user: user ?? this.user, otp: otp ?? this.otp);
+  }
+
+  SignupEntity toEntity() {
+    return SignupEntity(user: user?.toEntity(), otp: otp ?? '');
+  }
 }
+
+
